@@ -103,6 +103,9 @@ int main() {
 > so then we can test if the extended code will compile same as if we were using C itself with 0 overhead.
 
 C++ compiled assembly code
+```shell
+clang++ -S program.cpp -o program.asm --std=c++20 -Os -Wall -Wextra -Wpedantic
+```
 ```asm
 main:                                 
 	movl	$18620, %eax               
@@ -112,6 +115,9 @@ main:
 > everything was narrowed down and calculated by the compiler at compile time to the `movl $18620` instruction which is the result value that was returned by the main function.
 
 C compiled assembly code
+```shell
+clang -S program.c -o program.asm --std=c17 -Os -Wall -Wextra -Wpedantic
+```
 ```asm
 main:
 	movl	$18620, %eax 
