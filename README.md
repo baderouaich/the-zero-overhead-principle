@@ -108,7 +108,7 @@ main:
 	movl	$18620, %eax               
 	retq
 ```
-> The compiler has optimized away our Player class and the abstractions we had, all methods were inlined and
+> The C++ compiler has optimized away our Player class and the abstractions we had, all methods were inlined and
 > everything was narrowed down and calculated by the compiler at compile time to the `movl $18620` instruction which is the result value that was returned by the main function.
 
 C compiled assembly code
@@ -117,12 +117,12 @@ main:
 	movl	$18620, %eax 
 	retq
 ```
-> We can see that the compiler did the same thing by inlining all function calls as well.
+> We can see that the C compiler optimized our program by inlining function calls and objects construction to end up with the final value calculated at compile time.
 
 ## Conclusion
 We can see that the C and C++ compilers did the same optimizations such as inlining all function calls, compile time calculations..
 <br>
-But by using OOP to do our abstractions with C++, we still end up with same code as we wrote C level, and that we call `Zero Overhead`.
+But by using OOP to do our abstractions with C++, we still end up with same code as we wrote in C level, and that we call `Zero Overhead`.
 <br>
 This is such a good thing that we can use C++ features that don't exist in C such as (classes, methods, lambdas, polymorphism, templates ...)
 to write code that will compile just as if we were using C or Fortran, but with many features, of course if we respect the [C++ guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
