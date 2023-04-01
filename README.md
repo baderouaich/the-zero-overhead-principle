@@ -136,3 +136,8 @@ to write code that will compile just as if we were using C or Fortran, but with 
 ## References
 - [Bjarne Stroustrup explaining the zero overhead principle](https://www.youtube.com/watch?v=G5zCGY0tkq8)
 - [C++ guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+
+### Corrections
+If you think there is a mistake, misconception or misinformation, feel free to open an issue at the [issue tracker][tracker].
+
+[tracker]: https://github.com/baderouaich//the-zero-overhead-principle/issues
