@@ -9,7 +9,7 @@ and further: What you do use, you couldn't hand code any better.
  see the instructions difference.
  <br>
  In order to achieve the `zero overhead principle` in this demonstration, what we write in C++ code should be less or 
- equal instructions than we wrote in C.
+ equal assembly instructions than we wrote in C.
 
 This is our C code: 
 ```C
