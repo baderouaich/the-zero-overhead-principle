@@ -15,7 +15,7 @@ add_custom_command(TARGET cpp_program POST_BUILD
         COMMAND ${CMAKE_CXX_COMPILER} -S ${CPP_FILES} -o ${CMAKE_SOURCE_DIR}/C++/program.asm --std=c++20 -Os -Wall -Wextra -Wpedantic
         )
 add_custom_command(TARGET c_program POST_BUILD
-        COMMAND ${CMAKE_C_COMPILER} ${CMAKE_C_FLAGS} -S ${C_FILES} -o ${CMAKE_SOURCE_DIR}/C/program.asm --std=c17 -Os -Wall -Wextra -Wpedantic
+        COMMAND ${CMAKE_C_COMPILER} -S ${C_FILES} -o ${CMAKE_SOURCE_DIR}/C/program.asm --std=c17 -Os -Wall -Wextra -Wpedantic
         )
 
 message(STATUS "C++ Flags: ${CMAKE_CXX_FLAGS}")
