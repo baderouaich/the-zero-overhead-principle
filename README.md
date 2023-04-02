@@ -1,15 +1,23 @@
-# The Zero Overhead Principle
-```text
-The zero-overhead principle is a guiding principle for the design of C++.
-It states that: What you don't use, you don't pay for (in time or space) 
-and further: What you do use, you couldn't hand code any better.
-```
+## What is the zero overhead principle ?
 
- This is a small demonstration that has the same code written in C and C++ and both are compiled to assembly so you can
- see the instructions difference.
- <br>
- In order to achieve the `zero overhead principle` in this demonstration, what we write in C++ code should be less or 
- equal assembly instructions than we wrote in C.
+> "If you have an abstraction, it should not cast anything compared to write the equivalent code at a lower level. So, if i have a matrix multiplier, it should be written in such a way that you could not drop to C level of abstraction and use arrays and pointers and run faster."
+> [Bjarne Stroustrup from the Lex Fridman podcast](https://youtu.be/uTxRF5ag27A?t=2655)
+
+
+The zero-overhead principle is a C++ design principle that states:
+- You don't pay for what you don't use.
+- What you do use is just as efficient as what you could reasonably write by hand.
+
+In general, this means that no feature should be added to C++ that would impose any overhead, whether in time or space, greater than a programmer would introduce without using the feature.
+The only two features in the language that do not follow the zero-overhead principle are runtime type identification and exceptions, and are why most compilers include a switch to turn them off.
+[cppreference](https://en.cppreference.com/w/cpp/language/Zero-overhead_principle)
+
+## Demonstration
+This is a small demonstration that has the same code written in C and C++ and both are compiled to assembly so you can
+see the instructions difference.
+<br>
+In order to achieve the `zero overhead principle` in this demonstration, what we write in C++ code should be less or 
+equal assembly instructions than we wrote in C.
 
 This is our C code: 
 ```C
