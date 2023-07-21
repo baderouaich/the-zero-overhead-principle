@@ -1,6 +1,6 @@
 ## What is the zero overhead principle ?
 
-> "If you have an abstraction, it should not cast anything compared to write the equivalent code at a lower level. So, if i have a matrix multiplier, it should be written in such a way that you could not drop to C level of abstraction and use arrays and pointers and run faster."
+> "If you have an abstraction, it should not cost anything compared to writing the equivalent code at a lower level. So, if i have a matrix multiplier, it should be written in such a way that you could not drop to C level of abstraction and use arrays and pointers and run faster."
 > [Bjarne Stroustrup from the Lex Fridman podcast](https://youtu.be/uTxRF5ag27A?t=2655)
 
 
