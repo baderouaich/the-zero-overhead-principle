@@ -117,7 +117,7 @@ main:
 	retq
 ```
 > The C++ compiler has optimized away our Player class and the abstractions we had, all methods were inlined and
-> everything was narrowed down and calculated by the compiler at compile time to the `movl $18620` instruction which is the result value that was returned by the main function.
+> everything was narrowed down and calculated by the compiler at compile time to the `movl $27872` instruction which is the result value that was returned by the main function.
 
 C compiled assembly code
 ```shell
