@@ -12,6 +12,8 @@ In general, this means that no feature should be added to C++ that would impose 
 The only two features in the language that do not follow the zero-overhead principle are runtime type identification and exceptions, and are why most compilers include a switch to turn them off.
 [cppreference](https://en.cppreference.com/w/cpp/language/Zero-overhead_principle)
 
+<img src="https://github.com/user-attachments/assets/554f7aa8-b1ea-4dfe-ae61-2316223e1333" width="500"/>
+
 ## Demonstration
 This project includes a demonstration that contrasts equivalent code written in C and C++. Both versions are compiled to assembly language, allowing for a direct comparison of the generated instructions.
 
