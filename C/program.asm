@@ -1,16 +1,32 @@
-	.text
 	.file	"program.c"
-	.globl	main                            # -- Begin function main
-	.type	main,@function
-main:                                   # @main
+	.text
+	.section	.text.startup,"ax",@progbits
+	.globl	main
+	.type	main, @function
+main:
+.LFB8:
 	.cfi_startproc
-# %bb.0:
-	movl	$18620, %eax                    # imm = 0x48BC
-	retq
-.Lfunc_end0:
-	.size	main, .Lfunc_end0-main
+	endbr64
+	movl	$27872, %eax
+	ret
 	.cfi_endproc
-                                        # -- End function
-	.ident	"Ubuntu clang version 20.0.0 (++20240825053637+0916ae49b89d-1~exp1~20240825053808.1886)"
-	.section	".note.GNU-stack","",@progbits
-	.addrsig
+.LFE8:
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu 14.2.0-4ubuntu2~24.04) 14.2.0"
+	.section	.note.GNU-stack,"",@progbits
+	.section	.note.gnu.property,"a"
+	.align 8
+	.long	1f - 0f
+	.long	4f - 1f
+	.long	5
+0:
+	.string	"GNU"
+1:
+	.align 8
+	.long	0xc0000002
+	.long	3f - 2f
+2:
+	.long	0x3
+3:
+	.align 8
+4:

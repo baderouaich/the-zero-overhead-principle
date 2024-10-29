@@ -13,11 +13,10 @@ The only two features in the language that do not follow the zero-overhead princ
 [cppreference](https://en.cppreference.com/w/cpp/language/Zero-overhead_principle)
 
 ## Demonstration
-This is a small demonstration that has the same code written in C and C++ and both are compiled to assembly so you can
-see the instructions difference.
-<br>
-In order to achieve the `zero overhead principle` in this demonstration, what we write in C++ code should be less or 
-equal assembly instructions than we wrote in C.
+This project includes a demonstration that contrasts equivalent code written in C and C++. Both versions are compiled to assembly language, allowing for a direct comparison of the generated instructions.
+
+## Objective
+To illustrate the Zero Overhead Principle, the C++ code should generate assembly instructions that are fewer than or equal to those produced by the C code.
 
 This is our C code: 
 ```C
@@ -27,22 +26,15 @@ typedef struct Player {
 } Player;
 
 static void player_setX(Player *p, int x) { p->x = x; }
-
 static int player_getX(Player *p) { return p->x; }
-
 static void player_setY(Player *p, int y) { p->y = y; }
-
 static int player_getY(Player *p) { return p->y; }
-
 static void player_move_left(Player *p, int amount) { p->x -= amount; }
-
 static void player_move_right(Player *p, int amount) { p->x += amount; }
-
 static void player_move_up(Player *p, int amount) { p->y -= amount; }
-
 static void player_move_down(Player *p, int amount) { p->y += amount; }
 
-int main() {
+int main(void) {
     Player p1 = {55, 47}, p2 = {9, 74}, p3 = {10, 25};
     player_move_right(&p2, 5);
     player_move_down(&p3, 5);
@@ -50,49 +42,51 @@ int main() {
     player_setY(&p1, player_getY(&p2) / player_getY(&p3));
     player_move_left(&p1, player_getX(&p2) / 2);
     player_move_up(&p1, player_getY(&p2) / 2);
+    player_setX(&p1, player_getX(&p1) + 1);
+    player_setX(&p2, player_getX(&p2) + 2);
+    player_setX(&p3, player_getX(&p3) + 3);
     return player_getX(&p1) * player_getX(&p2) * player_getX(&p3);
 }
 ```
 
-This is our C++ code (equivalent: C + OOP feature):
+Here’s a comparable implementation using C++ features such as classes, templates, and operator overloading:
 ```C++
+template <typename T>
 class Entity {
 protected:
-    int x{};
-    int y{};
-public:
-    Entity(int x, int y) : x(x), y(y) {}
+    T x{};
+    T y{};
 
+public:
+    Entity(T x, T y) : x(x), y(y) {}
     virtual ~Entity() = default;
 
-    void setX(int x) noexcept { this->x = x; }
+    void setX(T x) noexcept { this->x = x; }
+    T getX() const noexcept { return x; }
+    void setY(T y) noexcept { this->y = y; }
+    T getY() const noexcept { return y; }
 
-    int getX() const noexcept { return x; }
-
-    void setY(int y) noexcept { this->y = y; }
-
-    int getY() const noexcept { return y; }
-
-    virtual void move_left(int amount) = 0;
-
-    virtual void move_right(int amount) = 0;
-
-    virtual void move_up(int amount) = 0;
-
-    virtual void move_down(int amount) = 0;
+    virtual void move_left(T amount) = 0;
+    virtual void move_right(T amount) = 0;
+    virtual void move_up(T amount) = 0;
+    virtual void move_down(T amount) = 0;
+    virtual Entity& operator+=(T amount) = 0;
 };
 
-class Player : public Entity {
+class Player : public Entity<int> {
 public:
-    Player(int x, int y) noexcept: Entity(x, y) {}
+    Player(int x, int y) noexcept : Entity(x, y) {}
 
     void move_left(int amount) override { this->x -= amount; }
-
     void move_right(int amount) override { this->x += amount; }
-
     void move_up(int amount) override { this->y -= amount; }
-
     void move_down(int amount) override { this->y += amount; }
+
+    Player& operator+=(int amount) override {
+        this->x += amount;
+        this->y += amount;
+        return *this;
+    }
 };
 
 int main() {
@@ -103,12 +97,13 @@ int main() {
     p1.setY(p2.getY() * p3.getY());
     p1.move_left(p2.getX() / 2);
     p1.move_up(p2.getY() / 2);
+    p1 += 1;
+    p2 += 2;
+    p3 += 3;
     return p1.getX() * p2.getX() * p3.getX();
 }
 ```
-> NB: we don't really have to use interfaces and pure virtual functions here because OOP is just a feature in C++ and we can use the same C code here.
-> It's just that to demonstrate the zero overhead principle, we have to use a feature that doesn't exist in C such as OOP, 
-> so then we can test if the extended code will compile same as if we were using C itself with 0 overhead.
+> Note: The use of interfaces and pure virtual functions here serves to demonstrate the capabilities of C++ and is not strictly necessary for this particular example. The goal is to showcase how C++ can use features not available in C while still adhering to the Zero Overhead Principle.
 
 C++ compiled assembly code
 ```shell
@@ -116,7 +111,7 @@ clang++ -S program.cpp -o program.asm --std=c++20 -Os -Wall -Wextra -Wpedantic
 ```
 ```asm
 main:                                 
-	movl	$18620, %eax               
+	movl	$27872, %eax               
 	retq
 ```
 > The C++ compiler has optimized away our Player class and the abstractions we had, all methods were inlined and
@@ -128,18 +123,16 @@ clang -S program.c -o program.asm --std=c17 -Os -Wall -Wextra -Wpedantic
 ```
 ```asm
 main:
-	movl	$18620, %eax 
+	movl	$27872, %eax 
 	retq
 ```
 > We can see that the C compiler optimized our program by inlining function calls and objects construction to end up with the final value calculated at compile time.
 
+## Analysis
+Both the C and C++ compilers performed optimizations such as inlining function calls and calculating values at compile time. Remarkably, despite the additional features employed in C++, the final assembly code generated was equivalent to that of the C code, demonstrating the Zero Overhead Principle in action.
+
 ## Conclusion
-We can see that the C and C++ compilers did the same optimizations such as inlining all function calls, compile time calculations..
-<br>
-But by using OOP to do our abstractions with C++, we still end up with same code as we wrote in C level, and that we call `Zero Overhead`.
-<br>
-This is such a good thing that we can use C++ features that don't exist in C such as (classes, methods, lambdas, polymorphism, templates ...)
-to write code that will compile just as if we were using C or Fortran, but with many features, of course if we respect the [C++ guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
+This demonstration illustrates that the C++ and C compilers achieved similar optimizations, such as inlining and compile-time calculations. By utilizing templates and object-oriented programming (OOP) in C++, we can write abstractions without sacrificing performance. This empowers developers to leverage advanced features like classes, methods, and templates while still achieving the efficiency of C-level code and sometimes even [better](https://youtu.be/uTxRF5ag27A?t=2678), of course if we respect the [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
 
 ## References
 - [Bjarne Stroustrup explaining the zero overhead principle](https://www.youtube.com/watch?v=G5zCGY0tkq8)
